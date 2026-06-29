@@ -3,1058 +3,903 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be Mine Forever? 💕</title>
+    <title>For My Forever | A Cinematic Love Story</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@1,400;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-gradient: linear-gradient(135deg, #050108 0%, #0f0212 40%, #1c031c 70%, #2c051a 100%);
+            --primary-glow: rgba(255, 46, 99, 0.8);
+            --secondary-glow: rgba(224, 86, 253, 0.6);
+            --glass-bg: rgba(15, 4, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f5f0f6;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Poppins:wght@300;400;500;600&display=swap');
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-        html, body {
+        body, html {
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background: #050108;
+            background: var(--bg-gradient);
             font-family: 'Poppins', sans-serif;
+            color: var(--text-main);
         }
 
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #2a0f1f 50%, #1a0a1a 75%, #0a0a0a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            position: relative;
-            color: #fff;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Background Elements */
-        #backgroundCanvas {
+        /* Ambient Background Canvas */
+        #canvas3d {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 1;
+            pointer-events: none;
         }
 
-        #particleCanvas {
+        /* Custom Cursor Trail Container */
+        #cursor-trail {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
         }
 
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Main App Wrapper */
+        #app-container {
+            position: relative;
             width: 100%;
             height: 100%;
             z-index: 2;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.2) 70%);
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(255, 200, 200, 0.6);
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Main Content Container */
-        .container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10;
-            flex-direction: column;
         }
 
-        /* Loading Screen */
-        .loading-screen {
+        /* 1. Cinematic Loading Screen */
+        #loader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeOut 0.8s ease-out 3.5s forwards;
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; pointer-events: auto; }
-            to { opacity: 0; pointer-events: none; }
-        }
-
-        .loading-content {
-            text-align: center;
-        }
-
-        .heart-loader {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 30px;
-            animation: heartBeat 1.2s ease-in-out infinite;
-        }
-
-        @keyframes heartBeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.3); }
-            50% { transform: scale(1); }
-        }
-
-        .loading-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: #ff69b4;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-
-        .loading-subtext {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 15px;
-            letter-spacing: 1px;
-        }
-
-        /* Heart Container */
-        .heart-container {
-            position: relative;
-            width: 400px;
-            height: 400px;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out 4.2s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            .heart-container {
-                width: 280px;
-                height: 280px;
-                margin-bottom: 40px;
-            }
-        }
-
-        /* Message Panels */
-        .message-panel {
-            text-align: center;
-            opacity: 0;
-            animation: slideInUp 0.8s ease-out 5s forwards;
-            margin-bottom: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 600px;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .romantic-message {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            line-height: 2;
-            color: rgba(255, 200, 220, 0.9);
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .romantic-message {
-                font-size: 16px;
-                line-height: 1.8;
-            }
-        }
-
-        .proposal-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff69b4 0%, #ffb6d9 50%, #ff1493 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
-            margin: 30px 0;
-            opacity: 0;
-            animation: glowAppear 1s ease-out 5.8s forwards;
-            letter-spacing: 2px;
-        }
-
-        @keyframes glowAppear {
-            from {
-                opacity: 0;
-                filter: blur(10px);
-            }
-            to {
-                opacity: 1;
-                filter: blur(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .proposal-text {
-                font-size: 32px;
-            }
-        }
-
-        /* Buttons */
-        .button-container {
-            display: flex;
-            gap: 30px;
-            margin-top: 40px;
-            opacity: 0;
-            animation: slideInUp 0.8s ease-out 6.3s forwards;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 768px) {
-            .button-container {
-                gap: 15px;
-            }
-        }
-
-        .btn {
-            padding: 18px 40px;
-            font-size: 18px;
-            font-weight: 600;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 105, 180, 0.1);
-            color: #fff;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 1px;
-            font-family: 'Poppins', sans-serif;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            transition: left 0.5s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.4);
-            border-color: rgba(255, 105, 180, 0.8);
-            background: rgba(255, 105, 180, 0.2);
-        }
-
-        .btn:active {
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        @media (max-width: 768px) {
-            .btn {
-                padding: 14px 28px;
-                font-size: 16px;
-            }
-        }
-
-        /* Acceptance Screen */
-        .acceptance-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            inset: 0;
+            background: #050108;
             z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
+            display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .acceptance-screen.active {
+        .loader-heart {
+            font-size: 3rem;
+            animation: pulseGlow 1.5s infinite alternate ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .loader-bar {
+            width: 150px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--secondary-glow), var(--primary-glow));
+            box-shadow: 0 0 10px var(--primary-glow);
+            animation: loadProgress 3.5s forwards cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+        }
+
+        /* Audio Controls */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        .audio-control:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-glow);
+        }
+        .audio-control svg {
+            fill: #fff;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Interactive Interface Overlays */
+        .scene {
+            position: absolute;
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            pointer-events: none;
+            transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                        transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene.active {
             opacity: 1;
+            transform: scale(1) translateY(0);
             pointer-events: auto;
         }
 
-        .acceptance-content {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            padding: 60px;
-            border-radius: 30px;
-            border: 2px solid rgba(255, 105, 180, 0.5);
-            max-width: 500px;
+        /* Typography & Polish */
+        .glass-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255,255,255,0.1);
+            width: 100%;
         }
 
-        .acceptance-heart {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .acceptance-text {
+        .poem-text {
             font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff69b4 0%, #ffb6d9 100%);
+            font-style: italic;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+        }
+
+        .proposal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #ffffff, #ffe3ec, #ffb3c6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+            text-shadow: 0 0 30px rgba(255, 46, 99, 0.4);
         }
 
-        .acceptance-subtitle {
-            font-size: 18px;
-            color: rgba(255, 200, 220, 0.9);
-            margin-top: 20px;
-            letter-spacing: 1px;
-            line-height: 1.6;
+        /* Countdown Timer */
+        .countdown-container {
+            margin-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 20px;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .countdown-item {
+            background: rgba(255,255,255,0.03);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .countdown-val {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff477e;
+        }
+        .countdown-unit {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
         }
 
-        @media (max-width: 768px) {
-            .acceptance-content {
-                padding: 40px 30px;
-            }
-
-            .acceptance-text {
-                font-size: 32px;
-            }
-
-            .acceptance-heart {
-                font-size: 60px;
-            }
-        }
-
-        /* Audio Control */
-        .audio-control {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            background: rgba(255, 105, 180, 0.2);
-            border: 2px solid rgba(255, 105, 180, 0.5);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+        /* Buttons Structure */
+        .btn-group {
             display: flex;
+            gap: 20px;
+            width: 100%;
             justify-content: center;
-            align-items: center;
+            margin-top: 10px;
+        }
+
+        .btn-luxury {
+            position: relative;
+            flex: 1;
+            max-width: 220px;
+            padding: 16px 24px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-radius: 40px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 28px;
-            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .audio-control:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+        .btn-yes {
+            background: linear-gradient(135deg, #ff2e63 0%, #c1123f 100%);
+            box-shadow: 0 4px 20px rgba(255, 46, 99, 0.4);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .audio-control.playing {
-            background: rgba(255, 105, 180, 0.4);
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(255, 46, 99, 0.7);
         }
 
-        @media (max-width: 768px) {
-            .audio-control {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-            }
+        .btn-ofcourse {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(5px);
         }
 
-        /* Cursor Trail */
-        .cursor-trail {
-            position: fixed;
-            pointer-events: none;
-            font-size: 20px;
-            z-index: 999;
-            opacity: 0.8;
-            animation: trailFade 0.8s ease-out forwards;
+        .btn-ofcourse:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes trailFade {
-            from {
-                opacity: 0.8;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-        }
-
-        /* Floating Hearts */
-        .floating-heart {
-            position: fixed;
-            pointer-events: none;
-            font-size: 30px;
-            z-index: 50;
-            animation: float-up 4s ease-out forwards;
-        }
-
-        @keyframes float-up {
-            to {
-                transform: translateY(-200px) translateX(var(--x));
-                opacity: 0;
-            }
-        }
-
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            pointer-events: none;
-            z-index: 60;
-        }
-
-        .confetti-piece {
+        /* Ripple Effect click asset */
+        .ripple {
             position: absolute;
-            animation: confetti-fall 3s ease-in forwards;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
         }
 
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(600px) rotate(720deg);
-                opacity: 0;
-            }
+        /* Final State Overlay Styles */
+        .success-panel {
+            background: rgba(10, 2, 15, 0.75);
+            border: 1px solid rgba(255, 46, 99, 0.2);
+            box-shadow: 0 20px 60px rgba(255, 46, 99, 0.15), inset 0 0 40px rgba(255, 46, 99, 0.1);
+        }
+        .success-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+        .success-subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.8);
         }
 
-        /* Scroll Area - Hidden */
-        ::-webkit-scrollbar {
-            display: none;
+        /* Micro Keyframe Animations */
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255,46,99,0.3)); }
+            100% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,46,99,0.8)); }
         }
 
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
+        }
 
-            .message-panel {
-                padding: 30px 20px;
-                margin-bottom: 30px;
-            }
-
-            .romantic-message {
-                font-size: 14px;
-            }
-
-            .proposal-text {
-                font-size: 24px;
-            }
+        /* Media Queries across screens */
+        @media (max-width: 768px) {
+            .glass-panel { padding: 30px 20px; }
+            .poem-text { font-size: 1.15rem; line-height: 1.7; }
+            .proposal-title { font-size: 1.7rem; margin-bottom: 25px; }
+            .btn-group { flex-direction: column; align-items: center; gap: 15px; }
+            .btn-luxury { width: 100%; max-width: 280px; padding: 14px 20px; }
+            .countdown-grid { gap: 6px; }
+            .countdown-val { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Background Canvas for Stars and Effects -->
-    <canvas id="backgroundCanvas"></canvas>
 
-    <!-- Particle Canvas for Text Particles -->
-    <canvas id="particleCanvas"></canvas>
+    <!-- Background Matrix System -->
+    <canvas id="canvas3d"></canvas>
+    <!-- Vector Trail Layer -->
+    <canvas id="cursor-trail"></canvas>
 
-    <!-- Stars Container -->
-    <div class="stars" id="starsContainer"></div>
-
-    <!-- Loading Screen -->
-    <div class="loading-screen">
-        <div class="loading-content">
-            <div class="heart-loader">❤️</div>
-            <div class="loading-text">Preparing something special...</div>
-            <div class="loading-subtext">Just for you</div>
-        </div>
+    <!-- Music Interface Asset -->
+    <div class="audio-control" id="audioToggle" title="Toggle Music">
+        <svg id="music-on-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Heart Container -->
-        <div class="heart-container" id="heartContainer"></div>
+    <!-- Layout Container -->
+    <div id="app-container">
+        
+        <!-- Loading State Panel -->
+        <div id="loader">
+            <div class="loader-heart">❤️</div>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+            <div class="loader-text">Assembling Galaxies</div>
+        </div>
 
-        <!-- Message Panel -->
-        <div class="message-panel">
-            <div class="romantic-message">
-                Every path I walked...<br>
-                Every moment I lived...<br>
-                Every heartbeat I felt...<br>
-                <br>
-                Somehow...<br>
-                They all led me to You ❤️
+        <!-- Section Scene 1: Main Proposal Deck -->
+        <div class="scene" id="scene-proposal">
+            <div class="glass-panel">
+                <div class="poem-text" id="poem-line-1" style="opacity:0; transition: opacity 1.2s;">Every path I walked...</div>
+                <div class="poem-text" id="poem-line-2" style="opacity:0; transition: opacity 1.2s;">Every moment I lived...</div>
+                <div class="poem-text" id="poem-line-3" style="opacity:0; transition: opacity 1.2s;">Every heartbeat I felt...</div>
+                <div class="poem-text" id="poem-line-4" style="opacity:0; transition: opacity 1.2s; margin-top:10px; font-weight:600;">Somehow...</div>
+                <div class="poem-text" id="poem-line-5" style="opacity:0; transition: opacity 1.5s; color: #ff477e;">They all led me to You ❤️</div>
+                
+                <h1 class="proposal-title" id="prop-title" style="opacity:0; transform:scale(0.9); transition: all 1.5s;">Will You Be Mine Forever?</h1>
+                
+                <div class="btn-group" id="action-controls" style="opacity:0; transition: opacity 1.2s;">
+                    <button class="btn-luxury btn-yes" onclick="acceptProposal(event)">❤️ YES ❤️</button>
+                    <button class="btn-luxury btn-ofcourse" onclick="acceptProposal(event)">🤍 OF COURSE YES 🤍</button>
+                </div>
+
+                <!-- Custom Time Milestone Feature -->
+                <div class="countdown-container id-panel" id="timer-panel" style="opacity:0; transition: opacity 1.5s;">
+                    <div class="countdown-label">Time spent falling for you</div>
+                    <div class="countdown-grid">
+                        <div class="countdown-item"><div class="countdown-val" id="days">00</div><div class="countdown-unit">Days</div></div>
+                        <div class="countdown-item"><div class="countdown-val" id="hours">00</div><div class="countdown-unit">Hrs</div></div>
+                        <div class="countdown-item"><div class="countdown-val" id="mins">00</div><div class="countdown-unit">Mins</div></div>
+                        <div class="countdown-item"><div class="countdown-val" id="secs">00</div><div class="countdown-unit">Secs</div></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Proposal Text -->
-        <div class="proposal-text">Will You Be Mine Forever? ❤️</div>
-
-        <!-- Buttons -->
-        <div class="button-container">
-            <button class="btn" id="yesBtn">❤️ YES ❤️</button>
-            <button class="btn" id="ofCourseBtn">🤍 OF COURSE YES 🤍</button>
+        <!-- Section Scene 2: Celebration Matrix -->
+        <div class="scene" id="scene-success">
+            <div class="glass-panel success-panel">
+                <h2 class="success-title">Best Decision Ever ❤️</h2>
+                <p class="success-subtitle">I promise to make you smile every single day.</p>
+            </div>
         </div>
+
     </div>
 
-    <!-- Acceptance Screen -->
-    <div class="acceptance-screen" id="acceptanceScreen">
-        <div class="acceptance-content">
-            <div class="acceptance-heart">💕</div>
-            <div class="acceptance-text">Best Decision Ever ❤️</div>
-            <div class="acceptance-subtitle">I Promise To Make You Smile Every Day.</div>
-        </div>
-    </div>
-
-    <!-- Audio Control -->
-    <div class="audio-control" id="audioControl">🔊</div>
-
+    <!-- Cinematic Audio Elements Synth (Fallback synthesizer engine if audio element blocks loading) -->
     <script>
-        // ============================================
-        // CONFIGURATION
-        // ============================================
+        class RomanceAudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.sequenceInterval = null;
+            }
+            init() {
+                if (this.ctx) return;
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            playProvingTrack() {
+                this.init();
+                if (this.isPlaying) return;
+                this.isPlaying = true;
+                
+                // Romantic emotional cinematic progression notes
+                const chords = [
+                    [196.00, 261.63, 329.63, 392.00], // C Maj7
+                    [196.00, 246.94, 293.66, 392.00], // G Maj
+                    [220.00, 261.63, 329.63, 440.00], // A Min
+                    [174.61, 220.00, 261.63, 349.23]  // F Maj
+                ];
+                let bar = 0;
+                let step = 0;
+
+                this.sequenceInterval = setInterval(() => {
+                    let currentChord = chords[bar % chords.length];
+                    // Arpeggiator simulation engine mapping piano profiles
+                    let note = currentChord[step % currentChord.length];
+                    if (step % 4 === 0 && step > 0) {
+                        this.triggerNote(currentChord[0] / 2, 1.5, 0.15); // Deep bass note foundation
+                    }
+                    this.triggerNote(note, 0.8, 0.08);
+                    step++;
+                    if (step % 8 === 0) bar++;
+                }, 400);
+            }
+            triggerNote(freq, duration, volume) {
+                if(!this.ctx || this.ctx.state === 'suspended') return;
+                let osc = this.ctx.createOscillator();
+                let gainNode = this.ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                
+                // Soft piano touch profile envelope curve
+                gainNode.gain.setValueAtTime(0, this.ctx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(volume, this.ctx.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                
+                osc.connect(gainNode);
+                gainNode.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            }
+            stop() {
+                clearInterval(this.sequenceInterval);
+                this.isPlaying = false;
+            }
+        }
+        const audioEngine = new RomanceAudioEngine();
+    </script>
+
+    <!-- Main Graphical Rendering Core Engine -->
+    <script>
+        const canvas = document.getElementById('canvas3d');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        let particles = [];
+        let globalTimeline = 0;
+        let isHeartFormed = false;
+        let systemState = 'stream'; // 'stream' | 'assemble' | 'celebrate'
+        const phrase = "I Love You...❣️";
+
+        // Global Parameters Config
         const CONFIG = {
-            particleCount: 2000,
-            animationDuration: 4000, // 4 seconds before convergence
-            convergenceDuration: 2000, // 2 seconds to form heart
-            particleText: 'I Love You...❣️',
-            heartBeatDuration: 1500,
+            particleCount: window.innerWidth < 768 ? 450 : 900,
+            streamSpeedMin: 1.5,
+            streamSpeedMax: 4.0,
+            transformTime: 240, // frames (~4s tracking state transition)
+            heartScale: window.innerWidth < 768 ? 9 : 14
         };
 
-        // ============================================
-        // PARTICLE SYSTEM
-        // ============================================
-        class Particle {
-            constructor(canvas) {
-                this.canvas = canvas;
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 4;
-                this.vy = (Math.random() - 0.5) * 4;
-                this.life = 1;
-                this.size = Math.random() * 0.8 + 0.6;
-                this.opacity = Math.random() * 0.5 + 0.5;
-                this.glow = Math.random() * 15 + 10;
-                this.directionType = Math.floor(Math.random() * 5);
-                this.speed = Math.random() * 2 + 1;
-                this.blur = Math.random() * 2;
-                this.targetX = 0;
-                this.targetY = 0;
-                this.converging = false;
-                this.convergenceProgress = 0;
-                this.initialX = this.x;
-                this.initialY = this.y;
+        // Handle scaling across viewport window resize events
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            CONFIG.heartScale = window.innerWidth < 768 ? 9 : 14;
+        });
 
-                this.setInitialDirection();
+        // Perfect Mathematical Heart Coordinates Generator Vector Map
+        function getHeartPoint(t) {
+            // Parametric equations for a perfectly symmetrical heart geometry
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            return { x: x, y: -y }; // Invert y value mapping to window matrix plane
+        }
+
+        // Particle Class Model Structure
+        class TextParticle {
+            constructor(id) {
+                this.id = id;
+                this.resetAsStream(true);
             }
 
-            setInitialDirection() {
-                const types = [
-                    () => { this.vx = this.speed; this.vy = 0; }, // Left to Right
-                    () => { this.vx = -this.speed; this.vy = 0; }, // Right to Left
-                    () => { this.vx = 0; this.vy = this.speed; }, // Top to Bottom
-                    () => { this.vx = 0; this.vy = -this.speed; }, // Bottom to Top
-                    () => { // Diagonal
-                        const angle = (Math.random() * Math.PI * 2);
-                        this.vx = Math.cos(angle) * this.speed;
-                        this.vy = Math.sin(angle) * this.speed;
-                    }
-                ];
-                types[this.directionType]();
+            resetAsStream(initialSpawn = false) {
+                this.text = phrase;
+                this.scale = Math.random() * 0.5 + 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.blur = Math.floor(Math.random() * 4);
+                this.glow = Math.random() > 0.6 ? Math.random() * 15 : 0;
+                
+                // Determine layout movement vectors (Left-Right, Top-Bottom, Diagonals)
+                const modes = ['LR', 'RL', 'TB', 'BT', 'DIAG'];
+                this.mode = modes[Math.floor(Math.random() * modes.length)];
+                this.speed = Math.random() * (CONFIG.streamSpeedMax - CONFIG.streamSpeedMin) + CONFIG.streamSpeedMin;
+
+                // Configure positions based on computational projection modes
+                if (initialSpawn) {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                } else {
+                    if (this.mode === 'LR') { this.x = -100; this.y = Math.random() * height; }
+                    else if (this.mode === 'RL') { this.x = width + 100; this.y = Math.random() * height; }
+                    else if (this.mode === 'TB') { this.x = Math.random() * width; this.y = -50; }
+                    else if (this.mode === 'BT') { this.x = Math.random() * width; this.y = height + 50; }
+                    else { this.x = -100; this.y = Math.random() * height; }
+                }
+
+                // Heart Assembly Blueprint Mapping Anchors
+                // Generate chronological sequence layout around heart parameter space
+                const t = (this.id / CONFIG.particleCount) * 2 * Math.PI;
+                const heartPos = getHeartPoint(t);
+                this.targetX = width / 2 + heartPos.x * CONFIG.heartScale;
+                this.targetY = height / 2.3 + heartPos.y * CONFIG.heartScale;
+                
+                // Reveal sequence index for left-to-right drawing animation simulation
+                this.drawOrderIndex = this.targetX; 
+
+                // Capture starting properties for vector blending transitions
+                this.startX = this.x;
+                this.startY = this.y;
+                this.transitionProgress = 0;
             }
 
             update() {
-                if (!this.converging) {
-                    this.x += this.vx;
-                    this.y += this.vy;
+                if (systemState === 'stream') {
+                    // Update linear flow positions based on configured trajectory matrices
+                    if (this.mode === 'LR' || this.mode === 'DIAG') {
+                        this.x += this.speed;
+                        if (this.mode === 'DIAG') this.y += this.speed * 0.3;
+                    } else if (this.mode === 'RL') {
+                        this.x -= this.speed;
+                    } else if (this.mode === 'TB') {
+                        this.y += this.speed;
+                    } else if (this.mode === 'BT') {
+                        this.y -= this.speed;
+                    }
 
-                    // Wrap around screen
-                    if (this.x < -50) this.x = this.canvas.width + 50;
-                    if (this.x > this.canvas.width + 50) this.x = -50;
-                    if (this.y < -50) this.y = this.canvas.height + 50;
-                    if (this.y > this.canvas.height + 50) this.y = -50;
-                } else {
-                    // Smooth convergence to target
-                    this.convergenceProgress += 0.02;
-                    const easeProgress = this.easeOutCubic(Math.min(this.convergenceProgress, 1));
-                    
-                    this.x = this.initialX + (this.targetX - this.initialX) * easeProgress;
-                    this.y = this.initialY + (this.targetY - this.initialY) * easeProgress;
+                    // Recycle out-of-bounds nodes to build seamless looping environment chains
+                    if (this.x < -150 || this.x > width + 150 || this.y < -100 || this.y > height + 100) {
+                        this.resetAsStream(false);
+                    }
+                } 
+                else if (systemState === 'assemble' || systemState === 'celebrate') {
+                    if (this.transitionProgress < 1) {
+                        // Blend progress state values using soft easing calculations
+                        this.transitionProgress += 0.006; 
+                        if (this.transitionProgress > 1) this.transitionProgress = 1;
+
+                        // Simulating progressive drawing pattern execution from left edge onward
+                        const drawingCutoff = width / 2 - 250 + (this.transitionProgress * 500);
+                        
+                        if (this.drawOrderIndex < drawingCutoff || this.transitionProgress > 0.8) {
+                            let ease = 1 - Math.pow(1 - this.transitionProgress, 3); // Cubic ease out tracking formula
+                            this.x = this.startX + (this.targetX - this.startX) * ease;
+                            this.y = this.startY + (this.targetY - this.startY) * ease;
+                            this.opacity = 0.2 + (0.7 * ease);
+                            this.scale = 0.4 + (0.3 * ease);
+                        }
+                    } else {
+                        // Heart beats softly mimicking natural organic lifecycles
+                        isHeartFormed = true;
+                        const pulseFactor = Math.sin(globalTimeline * 0.04) * 0.04 + 1.0;
+                        const beatX = width / 2 + (this.targetX - width / 2) * pulseFactor;
+                        const beatY = height / 2.3 + (this.targetY - height / 2.3) * pulseFactor;
+                        
+                        // Apply gentle fluid physics tracking adjustments
+                        this.x += (beatX - this.x) * 0.1;
+                        this.y += (beatY - this.y) * 0.1;
+                    }
+                }
+
+                // Continuous float drift injected to particle paths if success state triggered
+                if (systemState === 'celebrate') {
+                    this.y -= Math.sin(globalTimeline * 0.01 + this.id) * 0.2 + 0.3;
+                    this.x += Math.cos(globalTimeline * 0.02 + this.id) * 0.2;
                 }
             }
 
-            easeOutCubic(t) {
-                return 1 - Math.pow(1 - t, 3);
-            }
-
-            draw(ctx, offsetX = 0, offsetY = 0) {
+            draw() {
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = '#FFB6D9';
-                ctx.font = `${this.size * 8}px Arial`;
-                ctx.filter = `blur(${this.blur}px) brightness(1.2)`;
-                ctx.shadowBlur = this.glow;
-                ctx.shadowColor = 'rgba(255, 105, 180, 0.8)';
-                ctx.fillText(CONFIG.particleText, this.x + offsetX, this.y + offsetY);
+                ctx.font = `bold ${this.scale * 15}px 'Poppins', sans-serif`;
+                
+                if (this.glow > 0) {
+                    ctx.shadowBlur = this.glow;
+                    ctx.shadowColor = '#ff2e63';
+                }
+                
+                // Color variation shifting parameters to match deep luxury visual palettes
+                if (systemState === 'celebrate') {
+                    ctx.fillStyle = this.id % 2 === 0 ? '#ff477e' : '#ff758f';
+                } else if (isHeartFormed) {
+                    ctx.fillStyle = `rgb(255, ${46 + Math.sin(globalTimeline*0.05)*30}, 99)`;
+                } else {
+                    ctx.fillStyle = this.id % 3 === 0 ? '#fff' : (this.id % 3 === 1 ? '#ffb3c6' : '#e056fd');
+                }
+
+                ctx.fillText(this.text, this.x, this.y);
                 ctx.restore();
             }
         }
 
-        // ============================================
-        // HEART SHAPE CALCULATOR
-        // ============================================
-        function generateHeartPoints(centerX, centerY, scale = 1) {
-            const points = [];
-            const heartScale = 40 * scale;
-
-            for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
-                const x = 16 * Math.pow(Math.sin(angle), 3);
-                const y = 13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle);
-                
-                points.push({
-                    x: centerX + x * heartScale,
-                    y: centerY - y * heartScale
-                });
-            }
-            return points;
-        }
-
-        // ============================================
-        // MAIN APPLICATION
-        // ============================================
-        class ProposalApp {
+        // Secondary Effects Systems (Fireworks & Floating Celebration Accents)
+        let fireworks = [];
+        class Firework {
             constructor() {
-                this.particleCanvas = document.getElementById('particleCanvas');
-                this.particleCtx = this.particleCanvas.getContext('2d');
-                this.backgroundCanvas = document.getElementById('backgroundCanvas');
-                this.bgCtx = this.backgroundCanvas.getContext('2d');
-                
-                this.resizeCanvases();
-                window.addEventListener('resize', () => this.resizeCanvases());
-
+                this.x = Math.random() * width;
+                this.y = height;
+                this.targetY = Math.random() * (height * 0.4) + 100;
+                this.speed = Math.random() * 4 + 5;
+                this.exploded = false;
                 this.particles = [];
-                this.startTime = Date.now();
-                this.convergenceStartTime = null;
-                this.isConverging = false;
-                this.celebrationActive = false;
-                this.heartBeating = false;
-                this.audioPlaying = false;
-
-                // Initialize stars
-                this.initStars();
-
-                // Create particles
-                this.createParticles();
-
-                // Start animation loop
-                this.animate();
-
-                // Setup event listeners
-                this.setupEventListeners();
-
-                // Setup audio
-                this.setupAudio();
+                this.color = `hsl(${Math.random() * 40 + 340}, 100%, 65%)`;
             }
-
-            resizeCanvases() {
-                this.particleCanvas.width = window.innerWidth;
-                this.particleCanvas.height = window.innerHeight;
-                this.backgroundCanvas.width = window.innerWidth;
-                this.backgroundCanvas.height = window.innerHeight;
-            }
-
-            createParticles() {
-                for (let i = 0; i < CONFIG.particleCount; i++) {
-                    this.particles.push(new Particle(this.particleCanvas));
-                }
-            }
-
-            initStars() {
-                const starsContainer = document.getElementById('starsContainer');
-                const starCount = Math.min(Math.floor(window.innerWidth / 20), 100);
-                
-                for (let i = 0; i < starCount; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    star.style.left = Math.random() * 100 + '%';
-                    star.style.top = Math.random() * 100 + '%';
-                    star.style.animationDelay = Math.random() * 3 + 's';
-                    star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    starsContainer.appendChild(star);
-                }
-            }
-
-            startConvergence() {
-                this.convergenceStartTime = Date.now();
-                this.isConverging = true;
-
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                const heartPoints = generateHeartPoints(centerX, centerY, 3);
-
-                // Assign target positions from heart points
-                for (let i = 0; i < this.particles.length; i++) {
-                    const point = heartPoints[i % heartPoints.length];
-                    this.particles[i].targetX = point.x;
-                    this.particles[i].targetY = point.y;
-                    this.particles[i].converging = true;
-                    this.particles[i].initialX = this.particles[i].x;
-                    this.particles[i].initialY = this.particles[i].y;
-                }
-
-                // Start heartbeat after convergence
-                setTimeout(() => {
-                    this.startHeartbeat();
-                }, CONFIG.convergenceDuration + 500);
-            }
-
-            startHeartbeat() {
-                this.heartBeating = true;
-                const heartContainer = document.getElementById('heartContainer');
-                heartContainer.style.animation = 'none';
-                setTimeout(() => {
-                    heartContainer.style.animation = '';
-                }, 10);
-            }
-
-            startCelebration() {
-                this.celebrationActive = true;
-                
-                // Confetti
-                this.createConfetti();
-
-                // Floating hearts
-                this.createFloatingHearts();
-
-                // Fireworks
-                this.createFireworks();
-
-                // Play music if available
-                if (!this.audioPlaying) {
-                    this.playAudio();
-                }
-
-                // Show acceptance screen
-                setTimeout(() => {
-                    const acceptanceScreen = document.getElementById('acceptanceScreen');
-                    acceptanceScreen.classList.add('active');
-                }, 500);
-            }
-
-            createConfetti() {
-                const confettiCount = 100;
-                for (let i = 0; i < confettiCount; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti-piece';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.top = '-10px';
-                        confetti.style.fontSize = Math.random() * 20 + 10 + 'px';
-                        
-                        const symbols = ['❤️', '💕', '💖', '✨', '🎉'];
-                        confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                        
-                        const xOffset = (Math.random() - 0.5) * 300;
-                        confetti.style.setProperty('--x', xOffset + 'px');
-                        document.body.appendChild(confetti);
-                        
-                        setTimeout(() => confetti.remove(), 3000);
-                    }, i * 30);
-                }
-            }
-
-            createFloatingHearts() {
-                const heartCount = 30;
-                for (let i = 0; i < heartCount; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'floating-heart';
-                        heart.textContent = '❤️';
-                        heart.style.left = Math.random() * 100 + '%';
-                        heart.style.top = '100%';
-                        
-                        const xOffset = (Math.random() - 0.5) * 200;
-                        heart.style.setProperty('--x', xOffset + 'px');
-                        document.body.appendChild(heart);
-                        
-                        setTimeout(() => heart.remove(), 4000);
-                    }, i * 100);
-                }
-            }
-
-            createFireworks() {
-                const canvas = this.backgroundCanvas;
-                const fireworkCount = 15;
-
-                for (let f = 0; f < fireworkCount; f++) {
-                    setTimeout(() => {
-                        const startX = Math.random() * canvas.width;
-                        const startY = Math.random() * canvas.height * 0.6;
-                        const particleCount = 40;
-
-                        for (let p = 0; p < particleCount; p++) {
-                            const angle = (Math.PI * 2 * p) / particleCount;
-                            const vx = Math.cos(angle) * (Math.random() * 6 + 4);
-                            const vy = Math.sin(angle) * (Math.random() * 6 + 4);
-                            
-                            const particle = {
-                                x: startX,
-                                y: startY,
-                                vx: vx,
-                                vy: vy,
-                                life: 1,
-                                color: `hsl(${Math.random() * 60 + 300}, 100%, 60%)`
-                            };
-
-                            this.animateFireworkParticle(particle);
-                        }
-                    }, f * 200);
-                }
-            }
-
-            animateFireworkParticle(particle) {
-                const startTime = Date.now();
-                const duration = 2000;
-
-                const animate = () => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = elapsed / duration;
-
-                    if (progress < 1) {
-                        particle.x += particle.vx;
-                        particle.y += particle.vy;
-                        particle.vy += 0.1; // gravity
-                        particle.life = 1 - progress;
-
-                        // Draw
-                        this.bgCtx.save();
-                        this.bgCtx.globalAlpha = particle.life;
-                        this.bgCtx.fillStyle = particle.color;
-                        this.bgCtx.fillRect(particle.x, particle.y, 4, 4);
-                        this.bgCtx.restore();
-
-                        requestAnimationFrame(animate);
+            update() {
+                if (!this.exploded) {
+                    this.y -= this.speed;
+                    if (this.y <= this.targetY) {
+                        this.exploded = true;
+                        this.explode();
                     }
-                };
-
-                animate();
-            }
-
-            setupEventListeners() {
-                const yesBtn = document.getElementById('yesBtn');
-                const ofCourseBtn = document.getElementById('ofCourseBtn');
-
-                yesBtn.addEventListener('click', () => this.handleAcceptance());
-                ofCourseBtn.addEventListener('click', () => this.handleAcceptance());
-
-                // Cursor trail
-                document.addEventListener('mousemove', (e) => {
-                    this.createCursorTrail(e.clientX, e.clientY);
-                });
-
-                // Touch trail for mobile
-                document.addEventListener('touchmove', (e) => {
-                    const touch = e.touches[0];
-                    this.createCursorTrail(touch.clientX, touch.clientY);
-                }, { passive: true });
-            }
-
-            createCursorTrail(x, y) {
-                if (Math.random() > 0.7) return; // Reduce frequency
-
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.textContent = '💕';
-                trail.style.left = x + 'px';
-                trail.style.top = y + 'px';
-                document.body.appendChild(trail);
-
-                setTimeout(() => trail.remove(), 800);
-            }
-
-            handleAcceptance() {
-                if (this.celebrationActive) return;
-                this.startCelebration();
-            }
-
-            setupAudio() {
-                const audioControl = document.getElementById('audioControl');
-                audioControl.addEventListener('click', () => {
-                    if (this.audioPlaying) {
-                        this.stopAudio();
-                    } else {
-                        this.playAudio();
+                } else {
+                    for (let p of this.particles) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.04; // gravity matrix load
+                        p.alpha -= 0.015;
                     }
-                });
-            }
-
-            playAudio() {
-                // Create a simple piano melody using Web Audio API
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const now = audioContext.currentTime;
-
-                // Piano notes for "romantic" melody
-                const notes = [
-                    { freq: 261.63, time: 0, duration: 0.5 }, // C
-                    { freq: 329.63, time: 0.5, duration: 0.5 }, // E
-                    { freq: 392.00, time: 1, duration: 0.5 }, // G
-                    { freq: 523.25, time: 1.5, duration: 1 }, // C (high)
-                    { freq: 392.00, time: 2.5, duration: 0.5 }, // G
-                    { freq: 329.63, time: 3, duration: 0.5 }, // E
-                ];
-
-                notes.forEach(note => {
-                    const osc = audioContext.createOscillator();
-                    const gain = audioContext.createGain();
-
-                    osc.type = 'sine';
-                    osc.frequency.value = note.freq;
-
-                    gain.gain.setValueAtTime(0.1, now + note.time);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + note.time + note.duration);
-
-                    osc.connect(gain);
-                    gain.connect(audioContext.destination);
-
-                    osc.start(now + note.time);
-                    osc.stop(now + note.time + note.duration);
-                });
-
-                this.audioPlaying = true;
-                document.getElementById('audioControl').classList.add('playing');
-
-                setTimeout(() => {
-                    this.audioPlaying = false;
-                    document.getElementById('audioControl').classList.remove('playing');
-                }, 4000);
-            }
-
-            stopAudio() {
-                this.audioPlaying = false;
-                document.getElementById('audioControl').classList.remove('playing');
-            }
-
-            animate() {
-                const now = Date.now();
-                const elapsed = now - this.startTime;
-
-                // Update particles
-                for (let particle of this.particles) {
-                    particle.update();
+                    this.particles = this.particles.filter(p => p.alpha > 0);
                 }
-
-                // Start convergence after 4 seconds
-                if (!this.isConverging && elapsed > CONFIG.animationDuration) {
-                    this.startConvergence();
-                }
-
-                // Clear and draw
-                this.particleCtx.clearRect(0, 0, this.particleCanvas.width, this.particleCanvas.height);
-
-                for (let particle of this.particles) {
-                    particle.draw(this.particleCtx);
-                }
-
-                // Draw heartbeat glow effect
-                if (this.heartBeating) {
-                    this.drawHeartbeatGlow();
-                }
-
-                requestAnimationFrame(() => this.animate());
             }
-
-            drawHeartbeatGlow() {
-                const time = (Date.now() % CONFIG.heartBeatDuration) / CONFIG.heartBeatDuration;
-                const centerX = this.particleCanvas.width / 2;
-                const centerY = this.particleCanvas.height / 2;
-
-                // Create pulsing glow
-                const glow = Math.sin(time * Math.PI * 2) * 0.5 + 0.5;
-                const gradient = this.particleCtx.createRadialGradient(
-                    centerX, centerY, 0,
-                    centerX, centerY, 150
-                );
-
-                gradient.addColorStop(0, `rgba(255, 105, 180, ${glow * 0.3})`);
-                gradient.addColorStop(1, `rgba(255, 105, 180, 0)`);
-
-                this.particleCtx.fillStyle = gradient;
-                this.particleCtx.fillRect(0, 0, this.particleCanvas.width, this.particleCanvas.height);
+            explode() {
+                for (let i = 0; i < 60; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 3 + 1;
+                    this.particles.push({
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        alpha: 1
+                    });
+                }
+            }
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.fill();
+                } else {
+                    ctx.save();
+                    for (let p of this.particles) {
+                        ctx.globalAlpha = p.alpha;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                }
             }
         }
 
-        // ============================================
-        // INITIALIZE APP bhhbab
-        // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            new ProposalApp();
+        // Initialize Vector Simulation
+        function initSystem() {
+            particles = [];
+            for (let i = 0; i < CONFIG.particleCount; i++) {
+                particles.push(new TextParticle(i));
+            }
+        }
+
+        // Main Loop Pipeline Execution Anchor
+        function animate() {
+            // Soft trail fill clears pixels leaving beautiful light bloom traces
+            ctx.fillStyle = 'rgba(5, 1, 8, 0.12)';
+            ctx.fillRect(0, 0, width, height);
+
+            globalTimeline++;
+
+            // Update background vectors context
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+
+            // Manage firework lifecycle steps smoothly inside loop
+            if (systemState === 'celebrate') {
+                if (Math.random() < 0.04) fireworks.push(new Firework());
+                for (let fw of fireworks) {
+                    fw.update();
+                    fw.draw();
+                }
+                fireworks = fireworks.filter(fw => !fw.exploded || fw.particles.length > 0);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Trigger Setup Sequence
+        initSystem();
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                // Trigger structural orchestration tracking timeline points
+                triggerTimelineOrchestration();
+            }, 1500);
+        }, 3500);
+
+        // Core animation runner startup execution call
+        animate();
+
+        // Structural UI Orchestration System Timeline
+        function triggerTimelineOrchestration() {
+            // Stage 1: Fluid stream flows for approximately 4 seconds
+            setTimeout(() => {
+                // Transition state vectors into target coordinates mapping
+                systemState = 'assemble';
+                for (let p of particles) {
+                    p.startX = p.x;
+                    p.startY = p.y;
+                }
+                
+                // Stage 2: Reveal Interface Panels progressively after heart forms smoothly
+                setTimeout(() => {
+                    revealInterface();
+                }, 4000);
+
+            }, 4000);
+        }
+
+        function revealInterface() {
+            const scene = document.getElementById('scene-proposal');
+            scene.classList.add('active');
+
+            // Sequenced progressive text lines fade-in intervals
+            const lines = ['poem-line-1', 'poem-line-2', 'poem-line-3', 'poem-line-4', 'poem-line-5'];
+            lines.forEach((id, index) => {
+                setTimeout(() => {
+                    document.getElementById(id).style.opacity = 1;
+                }, index * 1000);
+            });
+
+            // Reveal proposal text and buttons
+            setTimeout(() => {
+                const title = document.getElementById('prop-title');
+                title.style.opacity = 1;
+                title.style.transform = 'scale(1)';
+            }, 5500);
+
+            setTimeout(() => {
+                document.getElementById('action-controls').style.opacity = 1;
+                document.getElementById('timer-panel').style.opacity = 1;
+            }, 6800);
+        }
+
+        // Acceptance Logic Handling
+        function acceptProposal(event) {
+            // Button interaction audio loop kickstart execution check
+            audioEngine.playProvingTrack();
+            document.getElementById('music-on-icon').style.fill = '#ff2e63';
+
+            // Button click ripple generation engine step
+            const btn = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+            const radius = diameter / 2;
+            
+            const rect = btn.getBoundingClientRect();
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - rect.left - radius}px`;
+            circle.style.top = `${event.clientY - rect.top - radius}px`;
+            circle.classList.add('ripple');
+            
+            btn.appendChild(circle);
+
+            // Phase Interface Panels into Complete Success Screen States
+            setTimeout(() => {
+                document.getElementById('scene-proposal').classList.remove('active');
+                systemState = 'celebrate'; // Explode fireworks framework triggers
+                
+                setTimeout(() => {
+                    document.getElementById('scene-success').classList.add('active');
+                }, 800);
+            }, 400);
+        }
+
+        // Music Switch Toggle Handlers
+        document.getElementById('audioToggle').addEventListener('click', () => {
+            if (audioEngine.isPlaying) {
+                audioEngine.stop();
+                document.getElementById('music-on-icon').style.fill = '#fff';
+            } else {
+                audioEngine.playProvingTrack();
+                document.getElementById('music-on-icon').style.fill = '#ff2e63';
+            }
         });
+
+        // Live Relationship Countdown Module Implementation Engine
+        const relationshipStartDate = new Date("October 24, 2025 00:00:00").getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = now - relationshipStartDate;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        setInterval(updateTimer, 1000);
+
+        // Vector Interaction Cursor Trail Implementation
+        const trailCanvas = document.getElementById('cursor-trail');
+        const tCtx = trailCanvas.getContext('2d');
+        let tWidth = trailCanvas.width = window.innerWidth;
+        let tHeight = trailCanvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            tWidth = trailCanvas.width = window.innerWidth;
+            tHeight = trailCanvas.height = window.innerHeight;
+        });
+
+        let trailPoints = [];
+        window.addEventListener('mousemove', (e) => {
+            trailPoints.push({ x: e.clientX, y: e.clientY, alpha: 1, scale: Math.random() * 0.4 + 0.6 });
+        });
+        window.addEventListener('touchmove', (e) => {
+            trailPoints.push({ x: e.touches[0].clientX, y: e.touches[0].clientY, alpha: 1, scale: Math.random() * 0.4 + 0.6 });
+        });
+
+        function drawCursorTrail() {
+            tCtx.clearRect(0,0,tWidth,tHeight);
+            for(let i=0; i<trailPoints.length; i++) {
+                let p = trailPoints[i];
+                p.alpha -= 0.02; // Fade rate metrics
+                
+                if(p.alpha <= 0) {
+                    trailPoints.splice(i, 1);
+                    i--;
+                    continue;
+                }
+                
+                tCtx.save();
+                tCtx.globalAlpha = p.alpha;
+                tCtx.fillStyle = '#ff2e63';
+                tCtx.font = `${p.scale * 14}px sans-serif`;
+                // Render delicate micro vector love hearts directly alongside tracks
+                tCtx.fillText('❤️', p.x, p.y);
+                tCtx.restore();
+            }
+            requestAnimationFrame(drawCursorTrail);
+        }
+        drawCursorTrail();
     </script>
 </body>
 </html>
